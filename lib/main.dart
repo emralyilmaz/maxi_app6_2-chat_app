@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:maxi_app6_2_shop_app/screen/chat_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -11,9 +14,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FlutterChat',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.pink,
+      //   backgroundColor: Colors.pink,
+      //   accentColor: Colors.deepPurple,
+      //   accentColorBrightness: Brightness.dark,
+      //   buttonTheme: ButtonTheme.of(context).copyWith(
+      //     buttonColor: Colors.pink,
+      //     textTheme: ButtonTextTheme.primary,
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(20),
+      //     ),
+      //   ),
+      // ),
       home: ChatScreen(),
     );
   }

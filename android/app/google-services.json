@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "740784905666",
+    "firebase_url": "https://maxi-chat-app2.firebaseio.com",
+    "project_id": "maxi-chat-app2",
+    "storage_bucket": "maxi-chat-app2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740784905666:android:ca2269a41c38f5133d8a5b",
+        "android_client_info": {
+          "package_name": "com.example.maxi_app6_2_shop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740784905666-llts8i5hk0abfcjnj8haehsgqvmpaao6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxLoqdj8TClCD21bg9W4fh67XfJuyv-E4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740784905666-llts8i5hk0abfcjnj8haehsgqvmpaao6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
