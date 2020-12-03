@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:maxi_app6_2_shop_app/screen/auth_screen.dart';
 import 'package:maxi_app6_2_shop_app/screen/chat_screen.dart';
 
 void main() async {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       //     ),
       //   ),
       // ),
-      home: ChatScreen(),
+      home: AuthScreen(),
     );
   }
 }
