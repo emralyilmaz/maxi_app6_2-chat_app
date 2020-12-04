@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:maxi_app6_2_shop_app/screen/auth_screen.dart';
@@ -28,7 +29,18 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: AuthScreen(),
+      home: StreamBuilder(
+        // stateless widget içerisinde yapmak için
+        stream: FirebaseAuth.instance.authStateChanges(),
+        // eskiden onAuthStateChanged kullanılıyordu.
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.hasData) {
+            return ChatScreen();
+          }
+          return AuthScreen();
+        },
+      ),
+      // StreamBuilder ile chatscreen ve authscreen arasında geçiş yapılmasını kolaylaştırıyoruz.
     );
   }
 }
