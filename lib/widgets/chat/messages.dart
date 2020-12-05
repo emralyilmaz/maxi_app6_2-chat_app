@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maxi_app6_2_shop_app/widgets/chat/message_bubble.dart';
 
 class Messages extends StatelessWidget {
+  final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -12,17 +14,19 @@ class Messages extends StatelessWidget {
                 descending:
                     true) // descending:mesajları aşağıdan yukarı doğru sıralamaya yarar.
             .snapshots(),
-        builder: (ctx, chatSnapshot) {
+        builder: (ctx, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
           if (chatSnapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
-          final chatDocs = chatSnapshot.data.documents;
+          final chatDocs = chatSnapshot.data.docs;
           return ListView.builder(
-              reverse:
-                  true, // mesajları aşağıdan yukarı doğru sıralamaya yarar.
-              itemCount: chatDocs.length,
-              itemBuilder: (ctx, index) =>
-                  MessageBubble(chatDocs[index]["text"]));
+            reverse: true,
+            itemCount: chatDocs.length,
+            itemBuilder: (ctx, index) => MessageBubble(
+              chatDocs[index].data()['text'],
+              chatDocs[index].data()['userId'] == user.uid,
+            ),
+          );
         });
   }
 }
