@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maxi_app6_2_shop_app/widgets/auth/auth_form.dart';
@@ -14,7 +18,7 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isLoading = false;
 
   void _submitAuthForm(String email, String password, String username,
-      bool isLogin, BuildContext ctx) async {
+      File image, bool isLogin, BuildContext ctx) async {
     UserCredential authResult;
 
     try {
@@ -27,16 +31,28 @@ class _AuthScreenState extends State<AuthScreen> {
             email: email, password: password);
       } else {
         authResult = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        await FirebaseFirestore.instance
-            .collection(
-                "users") // firebasede bunu yapınca kendiliğinde oluşacak
-            .doc(authResult.user.uid)
-            // Normalde, add yöntemiyle bir belge eklerseniz yeni bir kimlik. dinamik olarak oluşturulur.
-            // kimlik olarak bu kullanıcının koleksiyonunda Mevcut kullanıcı kimliğimi kullanmak istiyorum.
-            .set({
-          'username': username,
-          'email': email,
+          email: email,
+          password: password,
+        );
+
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child("user_image")
+            .child(authResult.user.uid + ".jpg");
+
+        var task = ref.putFile(image);
+
+        await task.whenComplete(() async {
+          var url = await ref.getDownloadURL();
+          print('File Uploaded $url');
+
+          await FirebaseFirestore.instance
+              .collection(
+                  "users") // firebasede bunu yapınca kendiliğinde oluşacak
+              .doc(authResult.user.uid)
+              // Normalde, add yöntemiyle bir belge eklerseniz yeni bir kimlik. dinamik olarak oluşturulur.
+              // kimlik olarak bu kullanıcının koleksiyonunda Mevcut kullanıcı kimliğimi kullanmak istiyorum.
+              .set({'username': username, 'email': email, 'profilePic': url});
         });
       }
     } on PlatformException catch (err) {

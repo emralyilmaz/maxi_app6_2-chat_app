@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      debugShowCheckedModeBanner: false,
       home: StreamBuilder(
         // stateless widget içerisinde yapmak için
         stream: FirebaseAuth.instance.authStateChanges(),
