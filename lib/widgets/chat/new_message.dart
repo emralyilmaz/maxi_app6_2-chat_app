@@ -15,16 +15,20 @@ class _NewMessageState extends State<NewMessage> {
     FocusScope.of(context).unfocus();
     final user = FirebaseAuth.instance
         .currentUser; //O anda oturum açmış olan kullanıcıya erişim sağlar.
-    final userData = await FirebaseFirestore.instance
+    final userDataRes = await FirebaseFirestore.instance
         .collection("users")
         .doc(user.uid)
         .get();
+
+    final userData = userDataRes.data();
+
     FirebaseFirestore.instance.collection("chat").add({
       "text": _enteredMessage,
       "createdAt": Timestamp.now(),
       "userId": user.uid,
-      "username": userData["username"]
-    });
+      "username": userData["username"],
+      "userImage": userData["profilePic"]
+    }).catchError((error) => print("Failed to add chat: $error"));
     _controller.clear();
   }
 
