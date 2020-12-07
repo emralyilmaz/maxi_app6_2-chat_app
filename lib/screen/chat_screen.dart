@@ -1,9 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:maxi_app6_2_shop_app/widgets/chat/messages.dart';
 import 'package:maxi_app6_2_shop_app/widgets/chat/new_message.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    final fbm = FirebaseMessaging();
+    fbm.requestNotificationPermissions(); // IOS için gerekli
+    fbm.configure();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
